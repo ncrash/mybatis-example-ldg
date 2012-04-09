@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.pe.ldg.mybatis.example1.repository.mapper.CommentMapper">
+	<resultMap id="BaseResultMap" type="kr.pe.ldg.mybatis.example1.model.Comment">
+		<id column="comment_no" jdbcType="BIGINT" property="commentNo" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="reg_date" jdbcType="TIMESTAMP" property="regDate" />
+		<result column="comment_content" jdbcType="VARCHAR" property="commentContent" />
+	</resultMap>
+  
+	<resultMap id="detailedBlogResultMap" type="Blog">
+		<constructor>
+			<idArg column="blog_id" javaType="int" />
+		</constructor>
+		<result property="title" column="blog_title" />
+		<association property="author" javaType=" Author">
+			<id property="id" column="author_id" />
+			<result property="username" column="author_username" />
+			<result property="password" column="author_password" />
+			<result property="email" column="author_email" />
+			<result property="bio" column="author_bio" />
+			<result property="favouriteSection" column="author_favourite_section" />
+		</association>
+		<collection property="posts" ofType="Post">
+			<id property="id" column="post_id" />
+			<result property="subject" column="post_subject" />
+			<association property="author" javaType="Author" />
+			<collection property="comments" ofType=" Comment">
+				<id property="id" column="comment_id" />
+			</collection>
+			<collection property="tags" ofType=" Tag">
+				<id property="id" column="tag_id" />
+			</collection>
+			<discriminator javaType="int" column="draft">
+				<case value="1" resultType="DraftPost" />
+			</discriminator>
+		</collection>
+	</resultMap>
+
+	<cache />
+
+	<select id="selectCommentByPrimaryKey" parameterType="long" resultMap="BaseResultMap"> 
+		SELECT 
+			comment_no,
+			user_id,
+			comment_content,
+			reg_date
+		FROM COMMENT 
+		WHERE comment_no = #{commentNo} 
+	</select>
+
+	<select id="selectCommentByCondition" parameterType="hashmap"
+		resultType="Comment">
+		SELECT
+			comment_no,
+			user_id,
+			comment_content,
+			reg_date
+		FROM COMMENT
+		<where>
+			<if test="commentNo != null">
+				comment_no = #{commentNo}
+			</if>
+		</where>
+		<!--trim prefix="WHERE" prefixOverrides="AND | OR"> <if test="commentNo 
+			!= null"> AND comment_no = #{commentNo} </if> <if test="commentNo != null"> 
+			AND comment_no = #{commentNo} </if> <if test="commentNoForeach != null and 
+			commentNoForeach.size() > 0"> AND comment_no IN <foreach collection="commentNoForeach" 
+			item="commentNo" index="index" open="(" separator="," close=")">#{commentNo}</foreach> 
+			</if> </trim -->
+	</select>
+
+	<!--insert id="insertComment" parameterType="Comment"> INSERT INTO COMMENT(comment_no, 
+		user_id, comment_content, reg_date) VALUES (#{commentNo}, #{userId}, #{commentContent}, 
+		#{regDate}) </insert -->
+
+	<!--update id="updateComment" parameterType="Comment"> UPDATE comment SET 
+		comment_content = #{commentContent} WHERE comment_no = #{commentNo}; </update -->
+
+	<!--delete id="deleteComment" parameterType="long"> DELETE FROM comment 
+		WHERE comment_no = #{commentNo}; </delete -->
+</mapper>
