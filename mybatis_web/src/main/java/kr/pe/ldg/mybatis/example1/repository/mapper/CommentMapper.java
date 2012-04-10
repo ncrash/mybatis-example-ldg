@@ -8,7 +8,6 @@ import kr.pe.ldg.mybatis.example1.model.Comment;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
 
 public interface CommentMapper {
 	@Select({
@@ -19,7 +18,7 @@ public interface CommentMapper {
 		})
 	Comment selectCommentByPrimaryKey(Long commentNo);
 
-	@SelectProvider(type=CommentSqlProvider.class, method="selectCommentByCondition")
+//	@SelectProvider(type=CommentSqlProvider.class, method="selectCommentByCondition")
 	List<Comment> selectCommentByCondition(Map<String, Object> condition);
 
 	@Insert("INSERT INTO COMMENT(comment_no, user_id, comment_content, reg_date) VALUES (#{commentNo}, #{userId}, #{commentContent}, #{regDate})")

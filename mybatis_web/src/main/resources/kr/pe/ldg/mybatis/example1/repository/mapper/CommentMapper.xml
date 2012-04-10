@@ -10,7 +10,7 @@
 		<result column="comment_content" jdbcType="VARCHAR" property="commentContent" />
 	</resultMap>
   
-	<resultMap id="detailedBlogResultMap" type="Blog">
+	<!--resultMap id="detailedBlogResultMap" type="Blog">
 		<constructor>
 			<idArg column="blog_id" javaType="int" />
 		</constructor>
@@ -37,11 +37,11 @@
 				<case value="1" resultType="DraftPost" />
 			</discriminator>
 		</collection>
-	</resultMap>
+	</resultMap-->
 
 	<cache />
 
-	<select id="selectCommentByPrimaryKey" parameterType="long" resultMap="BaseResultMap"> 
+	<!--select id="selectCommentByPrimaryKey" parameterType="long" resultMap="BaseResultMap"> 
 		SELECT 
 			comment_no,
 			user_id,
@@ -49,35 +49,121 @@
 			reg_date
 		FROM COMMENT 
 		WHERE comment_no = #{commentNo} 
-	</select>
+	</select-->
 
-	<select id="selectCommentByCondition" parameterType="hashmap"
-		resultType="Comment">
+	<select id="selectCommentByCondition" parameterType="hashmap" resultType="Comment">
 		SELECT
 			comment_no,
 			user_id,
 			comment_content,
 			reg_date
-		FROM COMMENT
+		FROM comment
 		<where>
 			<if test="commentNo != null">
 				comment_no = #{commentNo}
 			</if>
 		</where>
-		<!--trim prefix="WHERE" prefixOverrides="AND | OR"> <if test="commentNo 
-			!= null"> AND comment_no = #{commentNo} </if> <if test="commentNo != null"> 
-			AND comment_no = #{commentNo} </if> <if test="commentNoForeach != null and 
-			commentNoForeach.size() > 0"> AND comment_no IN <foreach collection="commentNoForeach" 
-			item="commentNo" index="index" open="(" separator="," close=")">#{commentNo}</foreach> 
-			</if> </trim -->
+	</select>
+	
+	<select id="selectCommentByConditionIf" parameterType="hashmap" resultType="Comment">
+		SELECT
+			comment_no,
+			user_id,
+			comment_content,
+			reg_date
+		FROM comment
+		<where>
+			<if test="commentNo != null">
+				comment_no = #{commentNo}
+			</if>
+			<if test="user != null and user.userId != null">
+				OR1 user_id = #{user.userId}
+			</if>			
+		</where>
+	</select>
+	
+	<select id="selectCommentByConditionChoose" parameterType="hashmap" resultType="Comment">
+		SELECT
+			comment_no,
+			user_id,
+			comment_content,
+			reg_date
+		FROM comment
+		<choose>
+			<when test="commentNo != null">
+			WHERE comment_no = #{commentNo}
+			</when>
+			<when test="user != null and user.userId != null">
+			WHERE user_id = #{user.userId}
+			</when>
+			<otherwise>
+			WHERE comment_no = 1
+			AND user_id = 'fromm0'
+			</otherwise>
+		</choose>
 	</select>
 
+	<select id="selectCommentByConditionTrim" parameterType="hashmap" resultType="Comment">
+		SELECT
+			comment_no,
+			user_id,
+			comment_content,
+			reg_date
+		FROM comment
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="commentNo != null">
+				AND comment_no = #{commentNo}
+			</if>
+			<if test="user != null and user.userId != null">
+				AND user_id = #{user.userId}
+			</if>
+			<if test="commentNos != null">
+				comment_no IN 
+				<foreach collection="commentNos" item="commentNo" index="index" open="(" close=")" separator=",">
+				#{commentNos}
+				</foreach>
+			</if>
+		</trim>
+	</select>
+	
+	<select id="selectCommentByConditionForeach" parameterType="hashmap" resultType="Comment">
+		SELECT
+			comment_no,
+			user_id,
+			comment_content,
+			reg_date
+		FROM comment
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="commentNos != null">
+				comment_no IN 
+				<foreach collection="commentNos" item="commentNo" index="index" open="(" close=")" separator=",">
+				#{commentNo}
+				</foreach>
+			</if>
+		</trim>
+	</select>
+		
 	<!--insert id="insertComment" parameterType="Comment"> INSERT INTO COMMENT(comment_no, 
 		user_id, comment_content, reg_date) VALUES (#{commentNo}, #{userId}, #{commentContent}, 
 		#{regDate}) </insert -->
 
-	<!--update id="updateComment" parameterType="Comment"> UPDATE comment SET 
-		comment_content = #{commentContent} WHERE comment_no = #{commentNo}; </update -->
+	<update id="updateCommentIf" parameterType="Comment"> 
+		UPDATE comment 
+			<set> 
+			<if test="commentContent != null">comment_content = #{commentContent},</if>
+			<if test="regDate != null">reg_date = #{regDate}</if>
+			</set> 
+		WHERE comment_no = #{commentNo}; 
+	</update>
+	
+	<update id="updateCommentTrim" parameterType="Comment"> 
+		UPDATE comment 
+			<trim prefix="SET" suffixOverrides=","> 
+			<if test="commentContent != null">comment_content = #{commentContent},</if>
+			<if test="regDate != null">reg_date = #{regDate},</if>
+			</trim> 
+		WHERE comment_no = #{commentNo}; 
+	</update>
 
 	<!--delete id="deleteComment" parameterType="long"> DELETE FROM comment 
 		WHERE comment_no = #{commentNo}; </delete -->

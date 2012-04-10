@@ -2,6 +2,7 @@ package kr.pe.ldg.mybatis.example1.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
@@ -12,6 +13,9 @@ public class Comment implements Serializable {
 	private String userId;
 	private Date regDate;
 	private String commentContent;
+
+	private User user;
+	private List<Reply> replies;
 
 	public Long getCommentNo() {
 		return commentNo;
@@ -45,4 +49,19 @@ public class Comment implements Serializable {
 		this.commentContent = commentContent;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<Reply> getReplies() {
+		return replies;
+	}
+
+	public void setReplies(List<Reply> replies) {
+		this.replies = replies;
+	}
 }

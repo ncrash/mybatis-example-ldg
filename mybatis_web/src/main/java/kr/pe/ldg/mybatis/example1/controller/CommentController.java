@@ -33,12 +33,26 @@ public class CommentController {
 	}
 	
 	@RequestMapping(value = "/select.*", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView select(Long commentNo) {
+	public ModelAndView select(Long commentNo, String userId) {
 		ModelAndView mav = new ModelAndView();
 
 		try {
 			CommentService commentService = new CommentService();
-			List<Comment> comments = commentService.selectComment(commentNo);
+			List<Comment> comments = commentService.selectComment(commentNo, userId);
+			mav.addObject("message", comments);
+		} catch (Exception e) {
+			LOGGER.error("{}", e.getMessage(), e);
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/foreach.*", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView foreach(Long[] commentNos) {
+		ModelAndView mav = new ModelAndView();
+		
+		try {
+			CommentService commentService = new CommentService();
+			List<Comment> comments = commentService.selectCommentForeach(commentNos);
 			mav.addObject("message", comments);
 		} catch (Exception e) {
 			LOGGER.error("{}", e.getMessage(), e);
@@ -54,6 +68,26 @@ public class CommentController {
 			comment.setRegDate(Calendar.getInstance().getTime());
 			CommentService commentService = new CommentService();
 			Integer result = commentService.insertComment(comment);
+			if (result > 0) {
+				mav.addObject("message", "success");
+			} else {
+				mav.addObject("message", "fail");
+			}
+		} catch (Exception e) {
+			LOGGER.error("{}", e.getMessage(), e);
+			mav.addObject("message", e.getMessage());
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/update.*", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView update(Comment comment) {
+		ModelAndView mav = new ModelAndView();
+		
+		try {
+			comment.setRegDate(Calendar.getInstance().getTime());
+			CommentService commentService = new CommentService();
+			Integer result = commentService.updateComment(comment);
 			if (result > 0) {
 				mav.addObject("message", "success");
 			} else {
