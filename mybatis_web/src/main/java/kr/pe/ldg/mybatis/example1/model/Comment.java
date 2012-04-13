@@ -64,4 +64,5 @@ public class Comment implements Serializable {
 	public void setReplies(List<Reply> replies) {
 		this.replies = replies;
 	}
+
 }

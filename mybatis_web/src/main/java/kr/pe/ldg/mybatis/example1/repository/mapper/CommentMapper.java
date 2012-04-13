@@ -7,15 +7,9 @@ import kr.pe.ldg.mybatis.example1.model.Comment;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
 
 public interface CommentMapper {
-	@Select({
-		"SELECT ", 
-		"comment_no, user_id, comment_content, reg_date ", 
-		"FROM COMMENT ",
-		"WHERE comment_no = #{commentNo}"
-		})
+//	@Select("SELECT comment_no, user_id, comment_content, reg_date FROM COMMENT WHERE comment_no = #{commentNo}")
 	Comment selectCommentByPrimaryKey(Long commentNo);
 
 //	@SelectProvider(type=CommentSqlProvider.class, method="selectCommentByCondition")

@@ -18,6 +18,10 @@
 	
 	<typeAliases>
 	  <typeAlias type="kr.pe.ldg.mybatis.example1.model.Comment" alias="Comment" />
+	  <typeAlias type="kr.pe.ldg.mybatis.example1.model.User" alias="User" />
+	  <typeAlias type="kr.pe.ldg.mybatis.example1.model.Reply" alias="Reply" />
+	  <typeAlias type="kr.pe.ldg.mybatis.example1.model.CommentUser" alias="CommentUser" />
+	  <typeAlias type="kr.pe.ldg.mybatis.example1.model.CommentReplies" alias="CommentReplies" />
 	</typeAliases>
 	
 	<environments default="development">
@@ -42,7 +46,9 @@
 	</environments>
 	
 	<mappers>
-		<!--mapper resource="kr/pe/ldg/mybatis/example1/repository/mapper/CommentMapper.xml" /-->
-		<mapper class="kr.pe.ldg.mybatis.example1.repository.mapper.CommentMapper" />
+		<mapper resource="kr/pe/ldg/mybatis/example1/repository/mapper/CommentMapper.xml" />
+		<mapper resource="kr/pe/ldg/mybatis/example1/repository/mapper/CommentMapper_ResultMap.xml" />
+		<mapper resource="kr/pe/ldg/mybatis/example1/repository/mapper/CommentMapper_DynamicSql.xml" />
+		<!--mapper class="kr.pe.ldg.mybatis.example1.repository.mapper.CommentMapper" /-->
 	</mappers>
 </configuration>
