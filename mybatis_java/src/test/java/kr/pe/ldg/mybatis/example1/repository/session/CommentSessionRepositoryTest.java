@@ -1,5 +1,6 @@
 package kr.pe.ldg.mybatis.example1.repository.session;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
 import java.util.ArrayList;
@@ -18,7 +19,9 @@ public class CommentSessionRepositoryTest {
 	@Test
 	public void testSelectCommentByPrimaryKey() {
 		Long commentNo = 1L;
-		commentSessionRepository.selectCommentByPrimaryKey(commentNo);
+		Comment comment = commentSessionRepository.selectCommentByPrimaryKey(commentNo);
+		
+		assertNotNull(comment);
 	}
 
 	@Test
@@ -30,9 +33,11 @@ public class CommentSessionRepositoryTest {
 
 		Comment comment = new Comment();
 		comment.setCommentNo(commentNo);
-		comment.setUserId(userId);
-		comment.setCommentContent(commentContent);
-		comment.setRegDate(regDate);
+//		comment.setUserId(userId);
+//		comment.setCommentContent(commentContent);
+//		comment.setRegDate(regDate);
+		commentSessionRepository.deleteComment(commentNo);
+		
 		Integer result = commentSessionRepository.insertComment(comment);
 
 		assertSame(result, 1);
@@ -45,7 +50,7 @@ public class CommentSessionRepositoryTest {
 		
 		Comment comment = new Comment();
 		comment.setCommentNo(commentNo);
-		comment.setCommentContent(commentContent);
+//		comment.setCommentContent(commentContent);
 		Integer result = commentSessionRepository.updateComment(comment);
 		
 		assertSame(result, 1);
