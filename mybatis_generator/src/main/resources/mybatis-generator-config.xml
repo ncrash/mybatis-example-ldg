@@ -26,6 +26,7 @@
 
 		<!-- 테이블별로 만들어지는 모델 클래스에 대한 설정 -->
 		<javaModelGenerator targetPackage="ldg.mybatis.model"  targetProject="mybatis_generator">
+		<!--javaModelGenerator targetPackage="ldg.mybatis.model"  targetProject="C:/MyDevEnv/workspace/mybatis_books/mybatis_generator"-->
 			<!--property name="constructorBased" value="true" />
 			<property name="immutable" value="true" /-->
 			<property name="enableSubPackages" value="true" />
@@ -34,12 +35,15 @@
 
 		<!-- 매퍼 XML에 대한 설정 -->
 		<sqlMapGenerator targetPackage="ldg.mybatis.repository.mapper" targetProject="mybatis_generator">
+		<!--sqlMapGenerator targetPackage="ldg.mybatis.repository.mapper" targetProject="C:/MyDevEnv/workspace/mybatis_books/mybatis_generator"-->
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 		
 		<!-- 매퍼 XML과 매퍼 인터페이스 방식 선택, type값은 ANNOTATEDMAPPER, MIXEDMAPPER, XMLMAPPER 중 선택  --> 
-		<javaClientGenerator type="XMLMAPPER" targetPackage="ldg.mybatis.repository.mapper" 
+		<javaClientGenerator type="ANNOTATEDMAPPER" targetPackage="ldg.mybatis.repository.mapper" 
 			targetProject="mybatis_generator">
+		<!--javaClientGenerator type="ANNOTATEDMAPPER" targetPackage="ldg.mybatis.repository.mapper" 
+			targetProject="C:/MyDevEnv/workspace/mybatis_books/mybatis_generator"-->
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
@@ -48,17 +52,11 @@
 			<property name="useActualColumnNames" value="false" />
 			<property name="ignoreQualifiersAtRuntime" value="true" />
 			<generatedKey column="comment_no" sqlStatement="MySql" identity="true" type="post" />
-			<!--columnOverride column="DATE_FIELD" property="startDate" /> 
-			<ignoreColumn column="FRED" /> 
-			<columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" / -->
 		</table>
 		<table schema="mybatis_example" tableName="reply" domainObjectName="Reply">
 			<property name="useActualColumnNames" value="false" />
 			<property name="ignoreQualifiersAtRuntime" value="true" />
 			<generatedKey column="reply_no" sqlStatement="MySql" identity="true" type="post" />
-			<!--columnOverride column="DATE_FIELD" property="startDate" /> 
-			<ignoreColumn column="FRED" /> 
-			<columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" / -->
 		</table>
 	</context>
 </generatorConfiguration>
