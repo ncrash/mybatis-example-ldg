@@ -9,7 +9,7 @@ import ldg.mybatis.model.User;
 import org.apache.ibatis.session.SqlSession;
 
 public class CommentSessionDynamicSqlRepository extends AbstractRepository {
-	private final String namespace = "ldg.mybatis.repository.mapper.CommentMapper_Dynamic";
+	private final String namespace = "ldg.mybatis.repository.mapper.CommentMapperDynamic";
 
 	public List<Comment> selectCommentByCondition(Map<String, Object> condition) {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();

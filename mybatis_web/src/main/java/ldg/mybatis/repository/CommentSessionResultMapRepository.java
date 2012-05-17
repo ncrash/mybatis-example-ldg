@@ -6,7 +6,7 @@ import ldg.mybatis.model.CommentUser;
 import org.apache.ibatis.session.SqlSession;
 
 public class CommentSessionResultMapRepository extends AbstractRepository {
-	private final String namespace = "ldg.mybatis.repository.mapper.CommentMapper_ResultMap";
+	private final String namespace = "ldg.mybatis.repository.mapper.CommentMapperResultMap";
 
 	public Comment selectCommentByPrimaryKey(Long commentNo) {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();

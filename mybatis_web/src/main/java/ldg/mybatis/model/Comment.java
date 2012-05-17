@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.ibatis.type.Alias;
-
-@Alias("Comment")
 @SuppressWarnings("serial")
 public class Comment implements Serializable {
 	private Long commentNo;
