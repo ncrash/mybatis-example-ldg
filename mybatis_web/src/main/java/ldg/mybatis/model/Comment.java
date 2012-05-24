@@ -4,8 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @SuppressWarnings("serial")
 public class Comment implements Serializable {
+	private static final Logger LOGGER = LoggerFactory.getLogger(Comment.class);
+	
 	private Long commentNo;
 	private String userId;
 	private Date regDate;
@@ -18,6 +23,8 @@ public class Comment implements Serializable {
 	}
 
 	public Comment(Long commentNo, String userId, Date regDate, String commentContent) {
+		LOGGER.info("생성자 호출");
+		
 		this.commentNo = commentNo;
 		this.userId = userId;
 		this.regDate = regDate;
@@ -29,6 +36,8 @@ public class Comment implements Serializable {
 	}
 
 	public void setCommentNo(Long commentNo) {
+		LOGGER.info("setCommentNo 호출");
+		
 		this.commentNo = commentNo;
 	}
 
@@ -37,6 +46,8 @@ public class Comment implements Serializable {
 	}
 
 	public void setUserId(String userId) {
+		LOGGER.info("setUserId 호출");
+		
 		this.userId = userId;
 	}
 
@@ -45,6 +56,8 @@ public class Comment implements Serializable {
 	}
 
 	public void setRegDate(Date regDate) {
+		LOGGER.info("setRegDate 호출");
+		
 		this.regDate = regDate;
 	}
 
@@ -53,6 +66,8 @@ public class Comment implements Serializable {
 	}
 
 	public void setCommentContent(String commentContent) {
+		LOGGER.info("setCommentContent 호출");
+		
 		this.commentContent = commentContent;
 	}
 
