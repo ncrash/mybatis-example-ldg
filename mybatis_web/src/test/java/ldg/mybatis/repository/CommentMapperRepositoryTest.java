@@ -1,5 +1,7 @@
 package ldg.mybatis.repository;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,16 +10,29 @@ import java.util.Map;
 import ldg.mybatis.model.Comment;
 import ldg.mybatis.model.User;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class CommentMapperRepositoryTest {
 	private final CommentMapperRepository commentMapperRepository = new CommentMapperRepository();
 
 	private final Long commentNo = 1L;
+
+	@Before
+	public void setUp() throws Exception {
+		commentMapperRepository.deleteComment(commentNo);
+		Comment comment = new Comment();
+		comment.setCommentNo(commentNo);
+		comment.setUserId("fromm0");
+		comment.setCommentContent("test");
+		comment.setRegDate(Calendar.getInstance().getTime());
+		commentMapperRepository.insertComment(comment);
+	}
 	
 	@Test
 	public void testSelectCommentByPrimaryKey() {
-		commentMapperRepository.selectCommentByPrimaryKey(commentNo);
+		Comment comment = commentMapperRepository.selectCommentByPrimaryKey(commentNo);
+		assertNotNull(comment);
 	}
 
 	@Test
@@ -25,7 +40,7 @@ public class CommentMapperRepositoryTest {
 		Map<String, Object> condition = new HashMap<String, Object>();
 		condition.put("commentNo", 1L);
 		condition.put("user", makeUser());
-		
+
 		commentMapperRepository.selectCommentByCondition(condition);
 	}
 
@@ -48,7 +63,7 @@ public class CommentMapperRepositoryTest {
 		comment.setRegDate(regDate);
 		return comment;
 	}
-	
+
 	private User makeUser() {
 		User user = new User();
 		user.setUserId("fromm0");

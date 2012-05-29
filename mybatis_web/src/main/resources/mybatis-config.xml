@@ -16,6 +16,7 @@
 	  <setting name="cacheEnabled" value="false"/>
 	  <setting name="useGeneratedKeys" value="true"/>
 	  <setting name="mapUnderscoreToCamelCase" value="true"/>
+	  <setting name="autoMappingBehavior" value="NONE"/>
 	</settings>
 	
 	<!-- 타입별칭 -->
@@ -26,6 +27,18 @@
 	  <typeAlias type="ldg.mybatis.model.CommentUser" alias="CommentUser" />
 	  <typeAlias type="ldg.mybatis.model.CommentReplies" alias="CommentReplies" />
 	</typeAliases>
+
+	<!-- 타입핸들러 -->
+	<!--typeHandlers>
+		<package name="ldg.mybatis.common.type"/>
+	</typeHandlers-->
+	
+	<!-- 플러그인 -->
+	<plugins>
+		<plugin interceptor="ldg.mybatis.common.plugin.ExecutorPlugin">
+			<property name="property" value="plugin test"/>
+		</plugin>
+	</plugins>
 	
 	<!-- 데이터베이스및 트랜잭션 관리자 -->
 	<environments default="development">

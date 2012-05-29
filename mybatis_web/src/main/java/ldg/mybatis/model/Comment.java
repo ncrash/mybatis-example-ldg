@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import ldg.mybatis.common.BaseModel;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
-public class Comment implements Serializable {
+public class Comment extends BaseModel implements Serializable {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Comment.class);
 	
 	private Long commentNo;
