@@ -21,11 +21,11 @@ import org.slf4j.LoggerFactory;
 )})
 public class ExecutorPlugin implements Interceptor {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ExecutorPlugin.class);
-	
-    private final int mappedStatementIndex = 0; 
-    private final int parameterIndex = 1; 
-    private final int rowboundsIndex = 2; 
-//    private final int resultHandlerIndex = 3;    
+
+	private final int mappedStatementIndex = 0;
+	private final int parameterIndex = 1;
+	private final int rowboundsIndex = 2;
+	//    private final int resultHandlerIndex = 3;    
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {

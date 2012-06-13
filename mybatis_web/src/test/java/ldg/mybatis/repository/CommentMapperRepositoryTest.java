@@ -12,8 +12,12 @@ import ldg.mybatis.model.User;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CommentMapperRepositoryTest {
+	private static final Logger LOGGER = LoggerFactory.getLogger(CommentMapperRepositoryTest.class);
+	
 	private final CommentMapperRepository commentMapperRepository = new CommentMapperRepository();
 
 	private final Long commentNo = 1L;
@@ -27,6 +31,8 @@ public class CommentMapperRepositoryTest {
 		comment.setCommentContent("test");
 		comment.setRegDate(Calendar.getInstance().getTime());
 		commentMapperRepository.insertComment(comment);
+		
+		LOGGER.info("댓글객체 : {}", comment);
 	}
 	
 	@Test
