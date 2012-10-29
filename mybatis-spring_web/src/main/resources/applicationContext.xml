@@ -32,15 +32,18 @@
 
 	<!-- ibatis 설정 // -->
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="sqlSessionFactoryBuilder" ref="sqlSessionFactoryBuilder" />
 		<property name="typeAliasesPackage" value="ldg.mybatis.model" />
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:/mybatis-config.xml" />
+		<property name="mapperLocations">
+			<array>
+				<value>classpath*:/ldg/mybatis/repository/mapper/**/*.xml</value>
+			</array>
+		</property>		
 	</bean>
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean" />
 	</bean>
-	<bean id="sqlSessionFactoryBuilder" class="org.apache.ibatis.session.SqlSessionFactoryBuilder" />
 	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="ldg.mybatis.repository" />
 	</bean>
