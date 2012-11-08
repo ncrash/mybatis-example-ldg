@@ -121,7 +121,7 @@
 
 	<dependencies>
 		<!-- Spring, Spring Related -->
-		<dependency>
+		<!--dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${springframework.version}</version>
@@ -135,7 +135,7 @@
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>${jackson.version}</version>
-		</dependency>		
+		</dependency-->		
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
@@ -222,12 +222,12 @@
 		</dependency>
 
 		<!-- Test -->
-		<dependency>
+		<!--dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${springframework.version}</version>
 			<scope>test</scope>
-		</dependency>
+		</dependency-->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

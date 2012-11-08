@@ -3,38 +3,42 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
-	<!--context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext.xml</param-value>
-	</context-param>
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener-->
-	
+	<display-name>mybatis_web</display-name>
+  	
 	<servlet>
-		<servlet-name>service</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:service-servlet.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
+		<servlet-name>CommentResultMapOneServlet</servlet-name>
+		<servlet-class>ldg.mybatis.controller.CommentResultMapOneServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>service</servlet-name>
-		<url-pattern>/</url-pattern>
+		<servlet-name>CommentResultMapOneServlet</servlet-name>
+		<url-pattern>/servlet/CommentResultMapOneServlet</url-pattern>
 	</servlet-mapping>
-	
-	<filter>
-		<filter-name>encodingFilter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>encodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	<servlet>
+		<servlet-name>CommentUpdateServlet</servlet-name>
+		<servlet-class>ldg.mybatis.controller.CommentUpdateServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CommentUpdateServlet</servlet-name>
+		<url-pattern>/servlet/CommentUpdateServlet</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>CommentDeleteServlet</servlet-name>
+		<servlet-class>ldg.mybatis.controller.CommentDeleteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CommentDeleteServlet</servlet-name>
+		<url-pattern>/servlet/CommentDeleteServlet</url-pattern>
+	</servlet-mapping>
+	<!-- 
+ldg.mybatis.controller.CommentDynamicSqlForeachServlet
+ldg.mybatis.controller.CommentDynamicSqlSelectServlet
+ldg.mybatis.controller.CommentResultMapAssociationServlet
+ldg.mybatis.controller.CommentResultMapCollectionServlet
+ldg.mybatis.controller.CommentResultMapConstructorServlet
+ldg.mybatis.controller.CommentResultMapDiscriminatorServlet
+ldg.mybatis.controller.CommentResultMapOneServlet
+ldg.mybatis.controller.CommentInsertServlet
+ldg.mybatis.controller.CommentUpdateServlet
+ldg.mybatis.controller.CommentDeleteServlet
+  	-->
 </web-app>

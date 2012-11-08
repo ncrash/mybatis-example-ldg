@@ -1,12 +1,8 @@
 package ldg.mybatis.service;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import ldg.mybatis.model.Comment;
-import ldg.mybatis.model.User;
+import ldg.mybatis.model.*;
 import ldg.mybatis.repository.CommentSessionDynamicSqlRepository;
 
 public class CommentDynamicSqlService {
@@ -21,7 +17,7 @@ public class CommentDynamicSqlService {
 		return commentRepository.selectCommentByConditionTrim(condition);
 	}
 
-	public List<Comment> selectCommentForeach(Long[] commentNos) {
+	public List<Comment> selectCommentForeach(String[] commentNos) {
 		Map<String, Object> condition = new HashMap<String, Object>();
 		condition.put("commentNos", Arrays.asList(commentNos));
 
