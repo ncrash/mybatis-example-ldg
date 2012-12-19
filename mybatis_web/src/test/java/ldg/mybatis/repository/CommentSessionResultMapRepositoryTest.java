@@ -4,12 +4,9 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Calendar;
 
-import ldg.mybatis.model.Comment;
-import ldg.mybatis.model.CommentUser;
+import ldg.mybatis.model.*;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 public class CommentSessionResultMapRepositoryTest {
 	private final CommentSessionResultMapRepository commentSessionResultMapRepository = new CommentSessionResultMapRepository();
@@ -59,6 +56,12 @@ public class CommentSessionResultMapRepositoryTest {
 	@Test
 	public void testSelectCommentByPrimaryKeyDiscriminator() {
 		Comment result = commentSessionResultMapRepository.selectCommentByPrimaryKeyDiscriminator(commentNo);
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testSelectColumnPrefix() {
+		CommentColumnPrefix result = commentSessionResultMapRepository.selectColumnPrefix(commentNo);
 		assertNotNull(result);
 	}
 }

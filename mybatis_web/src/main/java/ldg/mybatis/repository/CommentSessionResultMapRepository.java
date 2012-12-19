@@ -1,7 +1,6 @@
 package ldg.mybatis.repository;
 
-import ldg.mybatis.model.Comment;
-import ldg.mybatis.model.CommentUser;
+import ldg.mybatis.model.*;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -53,6 +52,16 @@ public class CommentSessionResultMapRepository extends AbstractRepository {
 		try {
 			String statement = namespace + ".selectCommentByPrimaryKeyDiscriminator";
 			return (Comment)sqlSession.selectOne(statement, commentNo);
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	public CommentColumnPrefix selectColumnPrefix(Long commentNo) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		try {
+			String statement = namespace + ".selectColumnPrefix";
+			return sqlSession.selectOne(statement, commentNo);
 		} finally {
 			sqlSession.close();
 		}
