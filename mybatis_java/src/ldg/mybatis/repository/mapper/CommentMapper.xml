@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ldg.mybatis.repository.mapper.CommentMapper">
+	<cache />
+
+	<sql id="BaseColumns">
+		comment_no AS commentNo,
+		user_id AS userId,
+		comment_content AS commentContent,
+		reg_date AS regDate
+	</sql>
+
+	<select id="selectCommentByPrimaryKey" parameterType="long" resultType="ldg.mybatis.model.Comment">
+		SELECT
+			<include refid="BaseColumns"/>
+		FROM COMMENT
+		WHERE comment_no = #{commentNo}
+	</select>
+
+	<select id="selectCommentByCondition" parameterType="hashmap" resultType="ldg.mybatis.model.Comment">
+		SELECT
+			comment_no AS commentNo,
+			user_id AS userId,
+			comment_content AS commentContent,
+			reg_date AS regDate
+		FROM COMMENT
+		<where>
+			<if test="commentNo != null">
+				comment_no = #{commentNo}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertComment" parameterType="ldg.mybatis.model.Comment">
+		INSERT INTO COMMENT(comment_no, user_id, comment_content, reg_date)
+		VALUES (#{commentNo}, #{userId}, #{commentContent}, #{regDate})
+	</insert>
+
+	<update id="updateComment" parameterType="ldg.mybatis.model.Comment">
+		UPDATE comment SET 
+			comment_content = #{commentContent}
+		WHERE comment_no = #{commentNo};
+	</update>
+
+	<delete id="deleteComment" parameterType="long">
+		DELETE FROM comment
+		WHERE comment_no = #{commentNo};
+	</delete>
+</mapper>
