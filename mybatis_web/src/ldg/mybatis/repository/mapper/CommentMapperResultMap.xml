@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ldg.mybatis.repository.mapper.CommentMapperResultMap">
+	<resultMap id="baseResultMap" type="Comment">
+		<id column="comment_no" jdbcType="BIGINT" property="commentNo" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="reg_date" jdbcType="TIMESTAMP" property="regDate" />
+		<result column="comment_content" jdbcType="VARCHAR" property="commentContent" />
+	</resultMap>
+	<resultMap id="constructorResultMap" type="Comment">
+		<constructor>
+			<idArg column="comment_no" javaType="long" />
+			<arg column="user_id" javaType="string" />
+			<arg column="reg_date" javaType="date" />
+			<arg column="comment_content" javaType="string" />
+		</constructor>
+	</resultMap>
+	
+	<resultMap id="associationResultMap" type="Comment">
+		<id column="comment_no" jdbcType="BIGINT" property="commentNo" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="reg_date" jdbcType="TIMESTAMP" property="regDate" />
+		<result column="comment_content" jdbcType="VARCHAR" property="commentContent" />
+		<association property="user" column="user_id" javaType="User">
+			<id property="userId" column="user_id" />
+			<result property="userName" column="user_name" />
+		</association>
+	</resultMap>
+	<resultMap id="associationResultMap2" type="CommentUser">
+		<association property="comment" column="comment_no" javaType="Comment" resultMap="constructorResultMap" />
+		<association property="user" column="user_id" javaType="User">
+			<id property="userId" column="user_id" />
+			<result property="userName" column="user_name" />
+		</association>
+	</resultMap>
+	
+	<resultMap id="collectionResultMap" type="Comment">
+		<id column="comment_no" jdbcType="BIGINT" property="commentNo" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="reg_date" jdbcType="TIMESTAMP" property="regDate" />
+		<result column="comment_content" jdbcType="VARCHAR" property="commentContent" />
+		<collection property="replies" ofType="Reply">
+			<id property="replyId" column="reply_id" />
+			<result property="userId" column="user_id" />
+			<result property="replyContent" column="reply_content" />
+			<result property="regDate" column="reg_date2" />
+		</collection>
+	</resultMap>
+	
+	<resultMap id="discriminatorResultMap" type="Comment">
+		<id column="comment_no" jdbcType="BIGINT" property="commentNo" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="reg_date" jdbcType="TIMESTAMP" property="regDate" />
+		<result column="comment_content" jdbcType="VARCHAR" property="commentContent" />
+		<discriminator javaType="string" column="user_id">
+			<case value="fromm0" resultMap="baseResultMap" />
+			<case value="manager" resultMap="constructorResultMap" />
+		</discriminator>
+	</resultMap>
+
+	<resultMap id="columnPrefixResultMap" type="ldg.mybatis.model.CommentColumnPrefix">
+		<association property="comment1" resultMap="constructorResultMap" columnPrefix="c1_"></association>
+		<association property="comment2" resultMap="constructorResultMap" columnPrefix="c2_"></association>
+	</resultMap>
+	
+	<cache />
+
+	<select id="selectCommentByPrimaryKey" parameterType="long" resultMap="constructorResultMap"> 
+		SELECT 
+			comment_no,
+			user_id,
+			comment_content,
+			reg_date
+		FROM comment 
+		WHERE comment_no = #{commentNo} 
+	</select>
+	
+	<select id="selectCommentByPrimaryKeyConstructor" parameterType="long" resultMap="constructorResultMap"> 
+		SELECT 
+			comment_no,
+			user_id,
+			comment_content,
+			reg_date
+		FROM comment 
+		WHERE comment_no = #{commentNo} 
+	</select>
+	
+	<select id="selectCommentByPrimaryKeyAssociation" parameterType="long" resultMap="associationResultMap2"> 
+		SELECT
+		  c.comment_no,
+		  c.user_id,
+		  c.comment_content,
+		  c.reg_date,
+		  u.user_name
+		FROM comment c, user u
+		WHERE c.user_id = u.user_id
+		AND c.comment_no = #{commentNo} 
+	</select>
+	
+	<select id="selectCommentByPrimaryKeyCollection" parameterType="long" resultMap="collectionResultMap"> 
+		SELECT
+		  c.comment_no,
+		  c.user_id,
+		  c.comment_content,
+		  c.reg_date,
+		  r.reply_content,
+		  r.reg_date AS reg_date2
+		FROM comment c, reply r
+		WHERE c.comment_no = r.comment_no
+		AND c.comment_no = #{commentNo} 
+	</select>
+	
+	<select id="selectCommentByPrimaryKeyDiscriminator" parameterType="long" resultMap="discriminatorResultMap"> 
+		SELECT
+		  comment_no,
+		  user_id,
+		  comment_content,
+		  reg_date
+		FROM comment
+		WHERE comment_no = #{commentNo} 
+	</select>
+	
+	<select id="selectColumnPrefix" resultMap="columnPrefixResultMap"> 
+		SELECT
+		    c1.comment_no AS c1_comment_no,
+		    c1.user_id AS c1_user_id,
+		    c1.comment_content AS c1_comment_content,
+		    c1.reg_date AS c1_reg_date,
+		    c2.comment_no AS c2_comment_no,
+		    c2.user_id AS c2_user_id,
+		    c2.comment_content AS c2_comment_content,
+		    c2.reg_date AS c2_reg_date,
+		    r.reply_content,
+		    r.reg_date        AS reg_date2
+		FROM COMMENT c1,
+		    COMMENT c2,
+		    reply r
+		WHERE c1.comment_no = r.comment_no
+		      AND c1.comment_no = c2.comment_no
+		      AND c1.comment_no = #{commentNo} 
+	</select>
+</mapper>

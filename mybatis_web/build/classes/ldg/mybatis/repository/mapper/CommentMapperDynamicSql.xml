@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ldg.mybatis.repository.mapper.CommentMapperDynamic">
+	<cache />
+
+	<select id="selectCommentByCondition" parameterType="hashmap" resultType="Comment">
+		SELECT
+			comment_no,
+			user_id,
+			comment_content,
+			reg_date
+		FROM comment
+		<if test="commentNo != null">
+			WHERE comment_no = #{commentNo}
+		</if>
+	</select>
+	
+	<select id="selectCommentByConditionIf" parameterType="hashmap" resultType="Comment">
+		SELECT
+			comment_no,
+			user_id,
+			comment_content,
+			reg_date
+		FROM comment
+		<where>
+			<if test="commentNo != null">
+				comment_no = #{commentNo}
+			</if>
+			<if test="user != null and user.userId != null">
+				AND user_id = #{user.userId}
+			</if>			
+		</where>
+	</select>
+	
+	<select id="selectCommentByConditionChoose" parameterType="hashmap" resultType="Comment">
+		SELECT
+			comment_no,
+			user_id,
+			comment_content,
+			reg_date
+		FROM comment
+		<choose>
+			<when test="commentNo != null">
+			WHERE comment_no = #{commentNo}
+			</when>
+			<when test="user != null and user.userId != null">
+			WHERE user_id = #{user.userId}
+			</when>
+			<otherwise>
+			WHERE comment_no = 1
+			AND user_id = 'fromm0'
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="selectCommentByConditionTrim" parameterType="hashmap" resultType="Comment">
+		SELECT
+			comment_no,
+			user_id,
+			comment_content,
+			reg_date
+		FROM comment
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="commentNo != null">
+				AND comment_no = #{commentNo}
+			</if>
+			<if test="user != null and user.userId != null">
+				AND user_id = #{user.userId}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="selectCommentByConditionForeach" parameterType="hashmap" resultType="Comment">
+		SELECT
+			comment_no,
+			user_id,
+			comment_content,
+			reg_date
+		FROM comment
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="commentNos != null">
+				comment_no IN 
+				<foreach collection="commentNos" item="commentNo" index="index" open="(" close=")" separator=",">
+				#{commentNo}
+				</foreach>
+			</if>
+		</trim>
+	</select>
+	
+	<select id="selectOgnlStaticMethod" parameterType="hashmap" resultType="Comment">
+		SELECT 
+			comment_no,
+			user_id,
+			comment_content,
+			reg_date		
+		FROM comment
+		<if test="_commentNo = @ldg.mybatis.model.StaticSample@getCommentNo1()">
+			WHERE comment_no = ${_commentNo}
+		</if>
+	</select>
+	<select id="selectOgnlStaticField" parameterType="hashmap" resultType="Comment">
+		SELECT 
+			comment_no,
+			user_id,
+			comment_content,
+			reg_date
+		FROM comment
+		<if test="@ldg.mybatis.model.StaticSample@commentNos != null">
+			WHERE comment_no IN 
+			<foreach collection="@ldg.mybatis.model.StaticSample@commentNos" item="commentNo" index="index" open="(" close=")" separator=",">
+			${commentNo}
+			</foreach>
+		</if>
+	</select>	
+	<select id="selectOgnlStaticMethod2" parameterType="hashmap" resultType="User">
+		SELECT 
+			user_id,
+			user_name
+		FROM user
+		<if test="@ldg.mybatis.common.StringUtils@isNotEmpty(userId)">
+			WHERE user_id = #{userId}
+		</if>
+	</select>	
+</mapper>
