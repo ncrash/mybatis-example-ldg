@@ -1,17 +1,13 @@
 <%@page import="java.io.*,java.util.*,javax.servlet.*,ldg.mybatis.service.*,ldg.mybatis.model.*" contentType="text/html; charset=utf8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf8">
-</head>
-<body>
-
 <%
 Long commentNo = Long.parseLong(request.getParameter("commentNo"));
 CommentResultMapService commentService = new CommentResultMapService();
-CommentUser comment = commentService.selectCommentByPrimaryKeyAssociation(commentNo);
+CommentUser commentUser = commentService.selectCommentByPrimaryKeyAssociation(commentNo);
 %>
+댓글번호 : <%= commentUser.getComment().getCommentNo() %><br>
+댓글작성자 : <%= commentUser.getComment().getUserId() %><br>
+댓글작성일시 : <%= commentUser.getComment().getRegDate() %><br>
+댓글내용 : <%= commentUser.getComment().getCommentContent() %><br>
 
-<%= comment %>
-</body>
-</html>
+댓글작성자 : <%= commentUser.getUser().getUserId() %><br>
+댓글작성자명 : <%= commentUser.getUser().getUserName() %><br>
