@@ -15,16 +15,9 @@ public class CommentJdbcRepository {
 	private Connection getConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-		} catch (InstantiationException e) {
-			throw new IllegalStateException(e);
-		} catch (IllegalAccessException e) {
-			throw new IllegalStateException(e);
-		} catch (ClassNotFoundException e) {
-			throw new IllegalStateException(e);
-		}
-		try {
-			return DriverManager.getConnection("jdbc:mysql://localhost:3306/mybatis_example", "mybatis", "mybatis");
-		} catch (SQLException e) {
+			return DriverManager.getConnection("jdbc:mysql://localhost:3306/mybatis_example", 
+				"mybatis", "mybatis");
+		} catch (Exception e) {
 			throw new IllegalStateException(e);
 		}
 	}
@@ -35,7 +28,6 @@ public class CommentJdbcRepository {
 		ResultSet rs = null;
 		try {
 			conn = this.getConnection();
-
 			StringBuilder sql = new StringBuilder("");
 			sql.append("SELECT comment_no, user_id, comment_content, reg_date ");
 			sql.append("FROM COMMENT ");
@@ -50,28 +42,17 @@ public class CommentJdbcRepository {
 				comment.setUserId(rs.getString("user_id"));
 				comment.setCommentContent(rs.getString("comment_content"));
 				comment.setRegDate(rs.getDate("reg_date"));
-
 				return comment;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				rs.close();
-			} catch (SQLException e) {
-			}
-			try {
-				stmt.close();
-			} catch (SQLException e) {
-			}
-			try {
-				conn.close();
-			} catch (SQLException e) {
-			}
+			try { rs.close(); } catch (SQLException e) {}
+			try {	stmt.close();} catch (SQLException e) {}
+			try {	conn.close();} catch (SQLException e) {}
 		}
 		return null;
 	}
-
 	public List<Comment> selectCommentByCondition(Map<String, Object> condition) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -120,7 +101,6 @@ public class CommentJdbcRepository {
 		}
 		return comments;
 	}
-
 	public Integer insertComment(Comment comment) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -151,7 +131,6 @@ public class CommentJdbcRepository {
 		}
 		return null;
 	}
-
 	public Integer updateComment(Comment comment) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -181,7 +160,6 @@ public class CommentJdbcRepository {
 		}
 		return null;
 	}
-
 	public Integer deleteComment(Long commentNo) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
