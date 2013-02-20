@@ -19,7 +19,11 @@ public class CommentDynamicSqlService {
 
 	public List<Comment> selectCommentForeach(String[] commentNos) {
 		Map<String, Object> condition = new HashMap<String, Object>();
-		condition.put("commentNos", Arrays.asList(commentNos));
+		List<Long> cs = new ArrayList<Long>();
+		for (String commentNo : commentNos) {
+			cs.add(Long.parseLong(commentNo));
+		}
+		condition.put("commentNos", cs);
 
 		CommentSessionDynamicSqlRepository commentRepository = new CommentSessionDynamicSqlRepository();
 		return commentRepository.selectCommentByConditionForeach(condition);

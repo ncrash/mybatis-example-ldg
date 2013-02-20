@@ -1,4 +1,4 @@
-<%@page import="java.io.*,java.util.*,javax.servlet.*,ldg.mybatis.service.*,ldg.mybatis.model.*" contentType="text/html; charset=utf8"%>
+<%@page import="java.io.*,java.util.*,ldg.mybatis.service.*,ldg.mybatis.model.*" contentType="text/html; charset=utf8"%>
 <%
 Long commentNo = Long.parseLong(request.getParameter("commentNo"));
 CommentResultMapService commentResultMapService = new CommentResultMapService();
