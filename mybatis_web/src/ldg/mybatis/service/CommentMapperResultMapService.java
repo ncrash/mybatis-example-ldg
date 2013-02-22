@@ -18,9 +18,10 @@ public class CommentMapperResultMapService {
 		return commentRepository.selectCommentByPrimaryKeyAssociation2(commentNo);
 	}
 	
-	public Comment selectCommentByPrimaryKeyCollection2(Long commentNo){
-		return commentRepository.selectCommentByPrimaryKeyCollection2(commentNo);
-	}
+//	public Comment selectCommentByPrimaryKeyCollection2(Long commentNo){
+//		return commentRepository.selectCommentByPrimaryKeyCollection2(commentNo);
+//	}
+	
 	public Comment selectCommentByPrimaryKeyDiscriminator2(Long commentNo){
 		return commentRepository.selectCommentByPrimaryKeyDiscriminator2(commentNo);
 	}	

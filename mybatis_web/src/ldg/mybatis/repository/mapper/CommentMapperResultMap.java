@@ -55,19 +55,19 @@ public interface CommentMapperResultMap {
 	 * @param commentNo
 	 * @return
 	 */
-	@Select({"SELECT c.comment_no, c.user_id, c.comment_content, c.reg_date, r.reply_content, r.reg_date AS reg_date2 ",
-		"FROM comment c, reply r ", 
-		"WHERE c.comment_no = r.comment_no ",
-		"AND c.comment_no = #{commentNo} "})
-	@Results({
-		@Result(column="comment_no", property="commentNo", id=true),
-		@Result(column="user_id", property="userId"),
-	    @Result(column="reg_date", property="regDate", jdbcType=JdbcType.TIMESTAMP),
-	    @Result(column="comment_content", property="commentContent"),
-		@Result(column="reply_content", property="reply.replyContent"),
-		@Result(column="reg_date2", property="reply.regDate")
-	})
-	Comment selectCommentByPrimaryKeyCollection2(Long commentNo);
+//	@Select({"SELECT c.comment_no, c.user_id, c.comment_content, c.reg_date, r.reply_content, r.reg_date AS reg_date2 ",
+//		"FROM comment c, reply r ", 
+//		"WHERE c.comment_no = r.comment_no ",
+//		"AND c.comment_no = #{commentNo} "})
+//	@Results({
+//		@Result(column="comment_no", property="commentNo", id=true),
+//		@Result(column="user_id", property="userId"),
+//	    @Result(column="reg_date", property="regDate", jdbcType=JdbcType.TIMESTAMP),
+//	    @Result(column="comment_content", property="commentContent"),
+//		@Result(column="reply_content", property="reply.replyContent"),
+//		@Result(column="reg_date2", property="reply.regDate")
+//	})
+//	Comment selectCommentByPrimaryKeyCollection2(Long commentNo);
 
 	/**
 	 * 

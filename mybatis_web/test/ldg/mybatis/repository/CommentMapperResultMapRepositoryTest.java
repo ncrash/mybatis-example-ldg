@@ -19,7 +19,7 @@ public class CommentMapperResultMapRepositoryTest {
 		test.testSelectCommentByPrimaryKey();
 		test.testSelectCommentByPrimaryKeyConstructor2();
 		test.testSelectCommentByPrimaryKeyAssociation2();
-		test.testSelectCommentByPrimaryKeyCollection2();
+//		test.testSelectCommentByPrimaryKeyCollection2();
 		test.testSelectCommentByPrimaryKeyDiscriminator2();
 	}
 
@@ -56,10 +56,10 @@ public class CommentMapperResultMapRepositoryTest {
 		System.out.println(result);
 	}
 
-	public void testSelectCommentByPrimaryKeyCollection2() {
-		Comment result = commentMapperResultMapRepository.selectCommentByPrimaryKeyCollection2(commentNo);
-		System.out.println(result);
-	}
+//	public void testSelectCommentByPrimaryKeyCollection2() {
+//		Comment result = commentMapperResultMapRepository.selectCommentByPrimaryKeyCollection2(commentNo);
+//		System.out.println(result);
+//	}
 
 	public void testSelectCommentByPrimaryKeyDiscriminator2() {
 		Comment result = commentMapperResultMapRepository.selectCommentByPrimaryKeyDiscriminator2(commentNo);
