@@ -12,7 +12,6 @@
 		<property name="url" value="jdbc:mysql://localhost:3306/mybatis_example" />
 		<property name="username" value="mybatis" />
 		<property name="password" value="mybatis" />
-
 		<property name="maxActive" value="20" />
 		<property name="maxWait" value="6000" />
 		<property name="poolPreparedStatements" value="true" />
@@ -30,7 +29,7 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<!-- ibatis 설정 // -->
+	<!-- 마이바티스 설정 // -->
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="typeAliasesPackage" value="ldg.mybatis.model" />
 		<property name="dataSource" ref="dataSource" />
