@@ -13,12 +13,12 @@
 		<appender-ref ref="console" />
 	</logger>
 	<logger name="ldg.mybatis" additivity="false">
-		<level value="DEBUG" />
+		<level value="TRACE" />
 		<appender-ref ref="console" />
 	</logger>
 	
 	<root>
-		<level value="DEBUG" />
+		<level value="TRACE" />
 		<appender-ref ref="console" />
 	</root>
 </log4j:configuration>
