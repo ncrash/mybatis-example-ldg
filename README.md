@@ -6,6 +6,11 @@ mybatis-example
 
 source code fork from : http://mybatis-example.googlecode.com/svn/trunk/
 
+## 목적
+* github에서 소스코드 리뷰이력 생성
+* IDE에 관계없이 동작하도록 변경
+ * 빌드자동화 도구를 maven -> gradle 변경
+
 ## fork history
 
 * svn checkout to git
