@@ -1,32 +1,203 @@
+buildscript {
+	/*
+	repositories {
+		maven { url "http://repo.springsource.org/plugins-release" }
+	}
+	dependencies {
+		classpath("org.springframework.build.gradle:propdeps-plugin:0.0.5")
+		classpath("org.asciidoctor:asciidoctor-gradle-plugin:0.7.0")
+		classpath("org.springframework.build.gradle:docbook-reference-plugin:0.2.8")
+	}
+	*/
+}
+
+configure(allprojects) { project ->
+	group = "ldg.mybatis"
+	version = qualifyVersionIfNecessary(version)
+
+	ext.aspectjVersion       = "1.7.4"
+	ext.groovyVersion        = "1.8.9"
+	ext.hibernate3Version    = "3.6.10.Final"
+	ext.hibernate4Version    = "4.2.9.Final"
+	ext.hibValVersion        = "4.3.1.Final"
+	ext.hsqldbVersion        = "2.3.1"
+	ext.jackson1Version      = "1.9.13"
+	ext.jackson2Version      = "2.3.1"
+	ext.jasperReportsVersion = "5.5.1"
+	ext.jettyVersion         = "9.1.2.v20140210"
+	ext.jodaVersion          = "2.3"
+	ext.junitVersion         = "4.11"
+	ext.slf4jVersion         = "1.7.5"
+	ext.logbackVersion       = '1.0.13'
+	ext.xstreamVersion       = "1.4.6"
+
+	ext.gradleScriptDir   = "${rootProject.projectDir}/gradle"
+
+	apply plugin: "java"
+
+	List loggers = [
+	    "org.slf4j:slf4j-api:${slf4jVersion}",
+	    "org.slf4j:jcl-over-slf4j:${slf4jVersion}",
+	    "org.slf4j:log4j-over-slf4j:${slf4jVersion}",
+	    "org.slf4j:jul-to-slf4j:${slf4jVersion}",
+	    "ch.qos.logback:logback-core:${logbackVersion}",
+	    "ch.qos.logback:logback-classic:${logbackVersion}",
+	    "ch.qos.logback:logback-access:${logbackVersion}"
+	]
+	
+	compileJava.options*.compilerArgs = [
+		"-Xlint:serial", "-Xlint:varargs", "-Xlint:cast", "-Xlint:classfile",
+		"-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
+		"-Xlint:overrides", "-Xlint:path", "-Xlint:processing", "-Xlint:static",
+		"-Xlint:try", "-Xlint:fallthrough", "-Xlint:rawtypes", "-Xlint:deprecation",
+		"-Xlint:unchecked", "-Xlint:-options", "-Werror"
+	]
+
+	compileTestJava.options*.compilerArgs = [
+		"-Xlint:serial", "-Xlint:varargs", "-Xlint:cast", "-Xlint:classfile",
+		"-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
+		"-Xlint:overrides", "-Xlint:path", "-Xlint:processing", "-Xlint:static",
+		"-Xlint:try", "-Xlint:-fallthrough", "-Xlint:-rawtypes", "-Xlint:-deprecation",
+		"-Xlint:-unchecked", "-Xlint:-options"]
+
+	compileJava {
+		sourceCompatibility=1.6
+		targetCompatibility=1.6
+	}
+
+	compileTestJava {
+		sourceCompatibility=1.7
+		targetCompatibility=1.7
+	}
+
+	sourceSets.test.resources.srcDirs = ["src/test/resources", "src/test/java"]
+
+	test {
+		systemProperty("java.awt.headless", "true")
+		systemProperty("testGroups", project.properties.get("testGroups"))
+		scanForTestClasses = false
+		include(["**/*Tests.*", "**/*Test.*"])
+		exclude "**/Abstract*.*"
+	}
+
+	repositories {
+		maven { url "http://repo.spring.io/libs-release" }
+		maven { url "http://repo.spring.io/milestone" }  // for AspectJ 1.8.0.M1
+		maven { url "https://oss.sonatype.org/content/repositories/releases" }  // javax.cache
+	}
+
+	dependencies {
+		compile loggers
+		
+		testCompile("junit:junit:${junitVersion}")
+		testCompile("org.hamcrest:hamcrest-all:1.3")
+		testCompile("org.mockito:mockito-core:1.9.5")
+	}
+
+	ext.javadocLinks = [
+		"http://docs.oracle.com/javase/7/docs/api/",
+		"http://docs.oracle.com/javaee/6/api/",
+		"http://docs.oracle.com/cd/E13222_01/wls/docs90/javadocs/", // CommonJ
+		"http://pic.dhe.ibm.com/infocenter/wasinfo/v7r0/topic/com.ibm.websphere.javadoc.doc/web/apidocs/",
+		"http://glassfish.java.net/nonav/docs/v3/api/",
+		"http://docs.jboss.org/jbossas/javadoc/4.0.5/connector/",
+		"http://docs.jboss.org/jbossas/javadoc/7.1.2.Final/",
+		"http://commons.apache.org/proper/commons-lang/javadocs/api-2.5/",
+		"http://commons.apache.org/proper/commons-codec/apidocs/",
+		"http://commons.apache.org/proper/commons-dbcp/apidocs/",
+		"http://portals.apache.org/pluto/portlet-2.0-apidocs/",
+		"http://tiles.apache.org/framework/apidocs/",
+		"http://aopalliance.sourceforge.net/doc/",
+		"http://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/",
+		"http://ehcache.org/apidocs/",
+		"http://quartz-scheduler.org/api/2.1.7/",
+		"http://jackson.codehaus.org/1.9.4/javadoc/",
+		"http://fasterxml.github.com/jackson-core/javadoc/2.3.0/",
+		"http://fasterxml.github.com/jackson-databind/javadoc/2.3.0/",
+		"http://hc.apache.org/httpcomponents-client-ga/httpclient/apidocs"
+	] as String[]
+}
+
+project("mybatis-example-java") {
+	description = "Mybatis Example Java"
+
+	dependencies {
+		compile 'cglib:cglib:3.1'
+		compile 'asm:asm:3.3.1'
+        compile 'org.mybatis:mybatis:3.2.5'
+		compile 'mysql:mysql-connector-java:5.1.29'
+	}
+}
+
+configure(rootProject) {
+	description = "MyBatis Example"
+	
+	// don't publish the default jar for the root project
+	configurations.archives.artifacts.clear()
+
+	// remove commons-logging, log4j, jul dependency
+	/*
+    configurations.exclude group: 'commons-logging', module: 'commons-logging'
+    configurations.exclude group: 'log4j', module: 'log4j'
+    configurations.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    configurations.exclude group: 'org.slf4j', module: 'slf4j-jcl'
+    configurations.exclude group: 'org.slf4j', module: 'slf4j-jdk14'
+	*/
+	
+	dependencies { // for integration tests
+		/*
+		testCompile(project(":spring-aop"))
+		testCompile(project(":spring-beans"))
+		testCompile(project(":spring-context"))
+		testCompile(project(":spring-core"))
+		testCompile(project(":spring-expression"))
+		testCompile(project(":spring-jdbc"))
+		testCompile(project(":spring-orm"))
+		testCompile(project(":spring-test"))
+		testCompile(project(":spring-tx"))
+		testCompile(project(":spring-web"))
+		testCompile(project(":spring-webmvc-portlet"))
+		*/
+		testCompile("javax.servlet:javax.servlet-api:3.0.1")
+		testCompile("javax.portlet:portlet-api:2.0")
+		testCompile("javax.inject:javax.inject:1")
+		testCompile("javax.resource:connector-api:1.5")
+		testCompile("org.aspectj:aspectjweaver:${aspectjVersion}")
+		testCompile("org.hibernate:hibernate-core:${hibernate4Version}")
+		testCompile("org.hsqldb:hsqldb:${hsqldbVersion}")
+	}
+
+	task wrapper(type: Wrapper) {
+		description = "Generates gradlew[.bat] scripts"
+		gradleVersion = "1.11"
+
+		doLast() {
+			def gradleOpts = "-XX:MaxMetaspaceSize=1024m -Xmx1024m"
+			def gradleBatOpts = "$gradleOpts -XX:MaxHeapSize=256m"
+			File wrapperFile = file("gradlew")
+			wrapperFile.text = wrapperFile.text.replace("DEFAULT_JVM_OPTS=",
+				"GRADLE_OPTS=\"$gradleOpts \$GRADLE_OPTS\"\nDEFAULT_JVM_OPTS=")
+			File wrapperBatFile = file("gradlew.bat")
+			wrapperBatFile.text = wrapperBatFile.text.replace("set DEFAULT_JVM_OPTS=",
+				"set GRADLE_OPTS=$gradleBatOpts %GRADLE_OPTS%\nset DEFAULT_JVM_OPTS=")
+		}
+	}
+
+}
+
 /*
- * This build file was auto generated by running the Gradle 'init' task
- * by 'ncrash' at '14. 3. 3 오후 6:00' with Gradle 1.11
- *
- * This generated file contains a commented-out sample Java project to get you started.
- * For more details take a look at the Java Quickstart chapter in the Gradle
- * user guide available at http://gradle.org/docs/1.11/userguide/tutorial_java_projects.html
+ * Support publication of artifacts versioned by topic branch.
+ * CI builds supply `-P BRANCH_NAME=<TOPIC>` to gradle at build time.
+ * If <TOPIC> starts with 'SPR-', change version
+ *     from BUILD-SNAPSHOT => <TOPIC>-SNAPSHOT
+ *     e.g. 3.2.1.BUILD-SNAPSHOT => 3.2.1.SPR-1234-SNAPSHOT
  */
-
-/*
-// Apply the java plugin to add support for Java
-apply plugin: 'java'
-
-// In this section you declare where to find the dependencies of your project
-repositories {
-    // Use 'maven central' for resolving your dependencies.
-    // You can declare any Maven/Ivy/file repository here.
-    mavenCentral()
+def qualifyVersionIfNecessary(version) {
+	if (rootProject.hasProperty("BRANCH_NAME")) {
+		def qualifier = rootProject.getProperty("BRANCH_NAME")
+		if (qualifier.startsWith("SPR-")) {
+			return version.replace('BUILD', qualifier)
+		}
+	}
+	return version
 }
-
-// In this section you declare the dependencies for your production and test code
-dependencies {
-    // The production code uses the SLF4J logging API at compile time
-    compile 'org.slf4j:slf4j-api:1.7.5'
-
-    // Declare the dependency for your favourite test framework you want to use in your tests.
-    // TestNG is also supported by the Gradle Test task. Just change the
-    // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
-    // 'test.useTestNG()' to your build script.
-    testCompile "junit:junit:4.11"
-}
-*/

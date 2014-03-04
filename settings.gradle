@@ -17,3 +17,9 @@ include 'services:webservice'
 */
 
 rootProject.name = 'mybatis-example'
+
+include 'mybatis-example-generator'
+include 'mybatis-example-java'
+include 'mybatis-example-jdbc'
+include 'mybatis-example-spring-web'
+include 'mybatis-example-web'
