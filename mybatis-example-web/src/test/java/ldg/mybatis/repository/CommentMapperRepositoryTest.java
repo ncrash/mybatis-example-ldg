@@ -4,56 +4,76 @@ import java.util.*;
 
 import ldg.mybatis.model.*;
 import ldg.mybatis.repository.CommentMapperRepository;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class CommentMapperRepositoryTest {
-	private final CommentMapperRepository commentMapperRepository = new CommentMapperRepository();
-	private static final Long commentNo = 1L;
+    private final CommentMapperRepository commentMapperRepository = new CommentMapperRepository();
+    private static final Long commentNo = 1L;
 
-	public static void main(String[] args) {
-		CommentMapperRepositoryTest test = new CommentMapperRepositoryTest();
+    @Before
+    public void setup() {
+        commentMapperRepository.deleteComment(commentNo);
+        commentMapperRepository.insertComment(getComment());
+    }
 
-		test.testSelectCommentByPrimaryKey();
-		test.testSelectCommentByCondition();
-		test.testDeleteComment();
-		test.testInsertComment();
-		test.testDeleteComment();
-	}
+    @Test
+    public void testSelectCommentByPrimaryKey() {
+        Comment comment = commentMapperRepository.selectCommentByPrimaryKey(commentNo);
 
-	public void testSelectCommentByPrimaryKey() {
-		Comment comment = commentMapperRepository.selectCommentByPrimaryKey(commentNo);
-		System.out.println(comment);
-	}
+        assertThat(comment, notNullValue());
+    }
 
-	public void testSelectCommentByCondition() {
-		Map<String, Object> condition = new HashMap<String, Object>();
-		condition.put("commentNo", 1L);
-		condition.put("user", makeUser());
+    @Test
+    public void testSelectCommentByCondition() {
+        Map<String, Object> condition = new HashMap<String, Object>();
+        condition.put("commentNo", 1L);
+        condition.put("user", makeUser());
 
-		commentMapperRepository.selectCommentByCondition(condition);
-	}
+        List<Comment> comments = commentMapperRepository.selectCommentByCondition(condition);
 
-	public void testInsertComment() {
-		Comment comment = makeComment(1L, "fromm0", "", Calendar.getInstance().getTime());
-		commentMapperRepository.insertComment(comment);
-	}
+        assertThat(comments.size(), equalTo(1));
+    }
 
-	public void testDeleteComment() {
-		commentMapperRepository.deleteComment(commentNo);
-	}
+    @Test
+    public void testInsertComment() {
+        commentMapperRepository.deleteComment(commentNo);
+        Integer integer = commentMapperRepository.insertComment(getComment());
 
-	private Comment makeComment(Long commentNo, String userId, String commentContent, Date regDate) {
-		Comment comment = new Comment();
-		comment.setCommentNo(commentNo);
-		comment.setUserId(userId);
-		comment.setCommentContent(commentContent);
-		comment.setRegDate(regDate);
-		return comment;
-	}
+        assertThat(integer, equalTo(1));
+    }
 
-	private User makeUser() {
-		User user = new User();
-		user.setUserId("fromm0");
-		user.setUserName("이동국");
-		return user;
-	}
+    @Test
+    public void testDeleteComment() {
+        Integer integer = commentMapperRepository.deleteComment(commentNo);
+
+        assertThat(integer, equalTo(1));
+    }
+
+    private Comment getComment() {
+        User user = makeUser();
+
+        return makeComment(1L, user.getUserId(), user.getUserName(), Calendar.getInstance().getTime());
+    }
+
+    private Comment makeComment(Long commentNo, String userId, String commentContent, Date regDate) {
+        Comment comment = new Comment();
+        comment.setCommentNo(commentNo);
+        comment.setUserId(userId);
+        comment.setCommentContent(commentContent);
+        comment.setRegDate(regDate);
+        return comment;
+    }
+
+    private User makeUser() {
+        User user = new User();
+        user.setUserId("fromm0");
+        user.setUserName("이동국");
+        return user;
+    }
 }
