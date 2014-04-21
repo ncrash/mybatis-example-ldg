@@ -130,10 +130,22 @@ project("mybatis-example-java") {
 
 project("mybatis-example-jdbc") {
 	description = "Mybatis Example Jdbc"
+
+    dependencies {
+        compile 'cglib:cglib:2.2.2'
+        compile 'asm:asm:3.3.1'
+        compile 'mysql:mysql-connector-java:5.1.22'
+    }
 }
 
 project("mybatis-example-web") {
 	description = "Mybatis Example Web"
+
+    dependencies {
+        compile 'cglib:cglib:2.2.2'
+        compile 'asm:asm:3.3.1'
+        compile 'mysql:mysql-connector-java:5.1.22'
+    }
 }
 
 project("mybatis-example-spring-web") {
@@ -151,6 +163,7 @@ project("mybatis-example-spring-web") {
 		compile group:"org.springframework", name: "spring-jdbc", version: "${springVersion}"
 		compile group:"org.springframework", name: "spring-tx", version: "${springVersion}"
 		compile group:"org.springframework", name: "spring-web", version: "${springVersion}"
+        compile group:"commons-dbcp", name: "commons-dbcp", version: "1.4"
 	}
 }
 
