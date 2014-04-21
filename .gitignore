@@ -89,3 +89,6 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
+
+### ncrash ###
+classes
