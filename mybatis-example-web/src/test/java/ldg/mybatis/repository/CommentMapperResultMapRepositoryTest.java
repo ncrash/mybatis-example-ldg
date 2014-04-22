@@ -3,6 +3,12 @@ package ldg.mybatis.repository;
 import java.util.Calendar;
 
 import ldg.mybatis.model.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class CommentMapperResultMapRepositoryTest {
 	private final CommentMapperResultMapRepository commentMapperResultMapRepository = new CommentMapperResultMapRepository();
@@ -11,17 +17,10 @@ public class CommentMapperResultMapRepositoryTest {
 	private final Long commentNo = 1L;
 	private final Long commentNo2 = 2L;
 
-	public static void main(String[] args) {
-		CommentMapperResultMapRepositoryTest test = new CommentMapperResultMapRepositoryTest();
-
-		test.makeSampleData();
-
-		test.testSelectCommentByPrimaryKey();
-		test.testSelectCommentByPrimaryKeyConstructor2();
-		test.testSelectCommentByPrimaryKeyAssociation2();
-//		test.testSelectCommentByPrimaryKeyCollection2();
-		test.testSelectCommentByPrimaryKeyDiscriminator2();
-	}
+    @Before
+    public void setup() {
+        makeSampleData();
+    }
 
 	public void makeSampleData() {
 		commentMapperRepository.deleteComment(commentNo);
@@ -41,31 +40,40 @@ public class CommentMapperResultMapRepositoryTest {
 		commentMapperRepository.insertComment(comment);
 	}
 
-	public void testSelectCommentByPrimaryKey() {
-		Comment result = commentMapperResultMapRepository.selectCommentByPrimaryKey(commentNo);
-		System.out.println(result);
-	}
+    @Test
+    public void testSelectCommentByPrimaryKey() {
+        Comment result = commentMapperResultMapRepository.selectCommentByPrimaryKey(commentNo);
 
+        assertThat(result.getCommentNo(), equalTo(commentNo));
+    }
+
+    @Test
 	public void testSelectCommentByPrimaryKeyConstructor2() {
 		Comment result = commentMapperResultMapRepository.selectCommentByPrimaryKeyConstructor2(commentNo);
-		System.out.println(result);
+
+        assertThat(result.getCommentNo(), equalTo(commentNo));
 	}
 
+    @Test
 	public void testSelectCommentByPrimaryKeyAssociation2() {
 		CommentUser result = commentMapperResultMapRepository.selectCommentByPrimaryKeyAssociation2(commentNo);
-		System.out.println(result);
+
+        assertThat(result, notNullValue());
 	}
 
-//	public void testSelectCommentByPrimaryKeyCollection2() {
-//		Comment result = commentMapperResultMapRepository.selectCommentByPrimaryKeyCollection2(commentNo);
-//		System.out.println(result);
-//	}
+    @Test
+	public void testSelectCommentByPrimaryKeyCollection2() {
+		Comment result = commentMapperResultMapRepository.selectCommentByPrimaryKeyCollection2(commentNo);
 
+        assertThat(result, notNullValue());
+	}
+
+    @Test
 	public void testSelectCommentByPrimaryKeyDiscriminator2() {
 		Comment result = commentMapperResultMapRepository.selectCommentByPrimaryKeyDiscriminator2(commentNo);
-		System.out.println(result);
+        assertThat(result.getCommentNo(), equalTo(commentNo));
 
 		result = commentMapperResultMapRepository.selectCommentByPrimaryKeyDiscriminator2(commentNo2);
-		System.out.println(result);
+        assertThat(result.getCommentNo(), equalTo(commentNo2));
 	}
 }

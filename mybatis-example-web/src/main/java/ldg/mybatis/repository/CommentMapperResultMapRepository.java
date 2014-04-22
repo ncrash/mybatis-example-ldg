@@ -50,18 +50,18 @@ public class CommentMapperResultMapRepository extends AbstractRepository {
 		return result;
 	}
 
-//	public Comment selectCommentByPrimaryKeyCollection2(Long commentNo) {
-//		SqlSession sqlSession = getSqlSessionFactory().openSession();
-//		Comment result = null;
-//		try {
-//			result = sqlSession.getMapper(CommentMapperResultMap.class).selectCommentByPrimaryKeyCollection2(commentNo);
-//		} catch (Exception e) {
-//			LOGGER.warn("{} : {}", e.getMessage(), e);
-//		} finally {
-//			sqlSession.close();
-//		}
-//		return result;
-//	}
+	public Comment selectCommentByPrimaryKeyCollection2(Long commentNo) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		Comment result = null;
+		try {
+			result = sqlSession.getMapper(CommentMapperResultMap.class).selectCommentByPrimaryKeyCollection2(commentNo);
+		} catch (Exception e) {
+			LOGGER.warn("{} : {}", e.getMessage(), e);
+		} finally {
+			sqlSession.close();
+		}
+		return result;
+	}
 
 	public Comment selectCommentByPrimaryKeyDiscriminator2(Long commentNo) {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
