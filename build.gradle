@@ -71,6 +71,7 @@ configure(allprojects) { project ->
 		targetCompatibility=1.7
 	}
 
+        [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 	sourceSets.test.resources.srcDirs = ["src/test/resources", "src/test/java"]
 
 	test {
